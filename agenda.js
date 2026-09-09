@@ -79,7 +79,7 @@ formulario.addEventListener("submit", (evento) => {
   const consultas = carregar();
 
   if (horarioOcupado(consultas, nova)) {
-    mensagem.textContent = "erro";
+    mensagem.textContent = "Horário já ocupado para esse profissional.";
     formulario.reset();
     return;
   }
