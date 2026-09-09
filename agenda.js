@@ -55,6 +55,12 @@ function dataJaPassou(data) {
   return dataConsulta < hoje;
 }
 
+function pacienteTemConsultaNoDia(consultas, nova) {
+  return consultas.some(
+    (c) => c.paciente.toLowerCase() === nova.paciente.toLowerCase() && c.data === nova.data
+  );
+}
+
 function renderizar() {
   const consultas = carregar().sort((a, b) =>
     (a.data + a.hora).localeCompare(b.data + b.hora)
@@ -98,9 +104,13 @@ formulario.addEventListener("submit", (evento) => {
     return;
   }
 
+  const pacienteDuplicado = pacienteTemConsultaNoDia(consultas, nova);
+
   consultas.push(nova);
   salvar(consultas);
-  mensagem.textContent = "Consulta agendada.";
+  mensagem.textContent = pacienteDuplicado
+    ? "Consulta agendada. Atenção: esse paciente já tem outra consulta nesse dia."
+    : "Consulta agendada.";
   formulario.reset();
   renderizar();
 });
