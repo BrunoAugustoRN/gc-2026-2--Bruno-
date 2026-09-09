@@ -47,14 +47,6 @@ function horarioOcupado(consultas, nova) {
   );
 }
 
-function dataJaPassou(data) {
-  const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0);
-  const [ano, mes, dia] = data.split("-").map(Number);
-  const dataConsulta = new Date(ano, mes - 1, dia);
-  return dataConsulta < hoje;
-}
-
 function renderizar() {
   const consultas = carregar().sort((a, b) =>
     (a.data + a.hora).localeCompare(b.data + b.hora)
@@ -85,12 +77,6 @@ formulario.addEventListener("submit", (evento) => {
   };
 
   const consultas = carregar();
-
-  if (dataJaPassou(nova.data)) {
-    mensagem.textContent = "Não é possível agendar em uma data que já passou.";
-    formulario.reset();
-    return;
-  }
 
   if (horarioOcupado(consultas, nova)) {
     mensagem.textContent = "Horário já ocupado para esse profissional.";
